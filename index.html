@@ -2,618 +2,468 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Propuesta · Aguas Cimes</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>Propuesta · Sombrero Rosa</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --rosa: #D4A0A4;
-  --rosa-light: #EDD5D7;
-  --negro: #0A0A0A;
-  --blanco: #FAFAF9;
-  --crema: #F4F1ED;
-  --gris: #141414;
-  --gris2: #1E1E1E;
-  --muted: #999;
-  --muted-lt: #AAA;
-  --ld: rgba(212,160,164,0.1);
-  --ll: rgba(0,0,0,0.07);
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --rosa:#D4A0A4;--negro:#0A0A0A;--blanco:#FAFAF9;
+  --crema:#F4F1ED;--gris:#141414;--muted:#888;--ll:rgba(0,0,0,0.08);
+  --ld:rgba(212,160,164,0.1);
 }
-html { scroll-behavior: smooth; }
-body { font-family: 'DM Sans', sans-serif; font-weight: 300; background: var(--negro); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+html,body{height:100%;overflow:hidden;}
+body{font-family:'DM Sans',sans-serif;font-weight:300;background:var(--negro);-webkit-font-smoothing:antialiased;}
+
+/* SNAP CONTAINER */
+.snap{height:100vh;overflow-y:scroll;scroll-snap-type:y mandatory;scrollbar-width:none;}
+.snap::-webkit-scrollbar{display:none;}
 
 /* NAV */
-.nav {
-  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-  background: rgba(10,10,10,0.85);
-  backdrop-filter: blur(20px);
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-  padding: 0 6vw;
-  display: flex; align-items: center; justify-content: space-between;
-  height: 48px;
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(10,10,10,0.9);backdrop-filter:blur(20px);
+  border-bottom:1px solid rgba(255,255,255,0.04);
+  padding:0 6vw;height:44px;
+  display:flex;align-items:center;justify-content:space-between;
 }
-.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; letter-spacing: 0.18em; color: rgba(255,255,255,0.7); }
-.nav-logo span { color: var(--rosa); }
-.nav-badge { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+.nav-logo{font-family:'Cormorant Garamond',serif;font-size:0.9rem;letter-spacing:0.18em;color:rgba(255,255,255,0.65);}
+.nav-logo span{color:var(--rosa);}
+.nav-r{font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:#444;}
+
+/* DOTS NAV */
+.dots{position:fixed;right:14px;top:50%;transform:translateY(-50%);z-index:99;display:flex;flex-direction:column;gap:7px;}
+.dot{width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,0.15);cursor:pointer;transition:all 0.3s;}
+.dot.active{background:var(--rosa);transform:scale(1.3);}
 
 /* SECTIONS */
-.section { width: 100%; position: relative; overflow: hidden; padding: 80px 6vw 64px; }
-.dark { background: var(--negro); color: var(--blanco); }
-.light { background: var(--crema); color: #111; }
-.dark2 { background: var(--gris); color: var(--blanco); }
-
-/* subtle noise texture on dark sections */
-.dark::after, .dark2::after {
-  content: '';
-  position: absolute; inset: 0; pointer-events: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
-  z-index: 0;
+.s{
+  height:100vh;scroll-snap-align:start;scroll-snap-stop:always;
+  position:relative;overflow:hidden;
+  padding:52px 6vw 16px;
+  display:flex;flex-direction:column;justify-content:center;
 }
+.dk{background:var(--negro);color:var(--blanco);}
+.lt{background:var(--crema);color:#111;}
+.dk2{background:var(--gris);color:var(--blanco);}
 
-/* BG WORD — much subtler */
-.bgword { position: absolute; bottom: -8px; right: -2px; font-size: clamp(60px,20vw,110px); font-weight: 700; letter-spacing: -0.04em; text-transform: uppercase; line-height: 1; pointer-events: none; color: rgba(255,255,255,0.02); z-index: 0; }
-.bgword.lt { color: rgba(0,0,0,0.03); }
+/* noise */
+.dk::after,.dk2::after{content:'';position:absolute;inset:0;pointer-events:none;opacity:0.6;
+background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.02'/%3E%3C/svg%3E");z-index:0;}
 
-/* TAGS — cleaner */
-.tag { font-size: 0.55rem; letter-spacing: 0.32em; text-transform: uppercase; color: var(--rosa); margin-bottom: 16px; display: flex; align-items: center; gap: 10px; position: relative; z-index: 1; }
-.tag::before { content: ''; display: block; width: 16px; height: 1px; background: var(--rosa); flex-shrink: 0; }
-.tag.lt { color: rgba(180,120,124,0.8); }
-.tag.lt::before { background: rgba(180,120,124,0.8); }
+/* BGWORD */
+.bw{position:absolute;bottom:-6px;right:-2px;font-size:clamp(52px,18vw,88px);font-weight:700;letter-spacing:-0.04em;text-transform:uppercase;line-height:1;pointer-events:none;color:rgba(255,255,255,0.018);z-index:0;}
+.bw.lt{color:rgba(0,0,0,0.028);}
+
+/* CONTENT z-index */
+.s>*{position:relative;z-index:1;}
+
+/* TAG */
+.tag{font-size:0.5rem;letter-spacing:0.32em;text-transform:uppercase;color:var(--rosa);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.tag::before{content:'';display:block;width:14px;height:1px;background:var(--rosa);flex-shrink:0;}
+.tag.lt{color:rgba(180,120,124,0.8);}
+.tag.lt::before{background:rgba(180,120,124,0.8);}
 
 /* HEADINGS */
-.h-xl { font-family: 'Cormorant Garamond', serif; font-size: clamp(3rem,11vw,5rem); font-weight: 300; line-height: 0.92; letter-spacing: -0.025em; margin-bottom: 20px; position: relative; z-index: 1; }
-.h-lg { font-family: 'Cormorant Garamond', serif; font-size: clamp(2.2rem,8vw,3.2rem); font-weight: 300; line-height: 0.95; letter-spacing: -0.02em; margin-bottom: 20px; position: relative; z-index: 1; }
-.ac { color: var(--rosa); font-style: italic; }
-.acd { color: rgba(180,120,124,0.9); font-style: italic; }
-.body { font-size: 0.85rem; color: var(--muted); line-height: 1.9; position: relative; z-index: 1; }
-.bodylt { font-size: 0.85rem; color: #777; line-height: 1.9; position: relative; z-index: 1; }
+.hxl{font-family:'Cormorant Garamond',serif;font-size:clamp(2.4rem,9vw,3.8rem);font-weight:300;line-height:0.92;letter-spacing:-0.025em;margin-bottom:12px;}
+.hlg{font-family:'Cormorant Garamond',serif;font-size:clamp(1.7rem,7vw,2.6rem);font-weight:300;line-height:0.95;letter-spacing:-0.02em;margin-bottom:12px;}
+.ac{color:var(--rosa);font-style:italic;}
+.acd{color:rgba(180,120,124,0.9);font-style:italic;}
 
-/* PILLS — minimal outline */
-.pills { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; position: relative; z-index: 1; }
-.pill { font-size: 0.55rem; letter-spacing: 0.16em; text-transform: uppercase; border: 1px solid rgba(212,160,164,0.25); color: var(--rosa); padding: 5px 11px; border-radius: 0; }
-.pill.lt { border-color: rgba(180,120,124,0.2); color: rgba(180,120,124,0.8); }
+/* BODY */
+.body{font-size:0.75rem;color:var(--muted);line-height:1.75;}
+.bodylt{font-size:0.75rem;color:#777;line-height:1.75;}
 
-/* DIVIDERS */
-.dh { width: 100%; height: 1px; background: rgba(255,255,255,0.05); margin: 24px 0; position: relative; z-index: 1; }
-.dh.lt { background: rgba(0,0,0,0.07); }
+/* QUOTE */
+.qt{border-left:1px solid var(--rosa);padding-left:12px;font-size:0.75rem;font-style:italic;color:var(--muted);line-height:1.75;margin-bottom:12px;}
 
-/* FASE BADGE — thin, elegant */
-.fbadge { display: inline-flex; border: 1px solid var(--rosa); color: var(--rosa); font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; font-weight: 400; padding: 4px 12px; margin-bottom: 16px; position: relative; z-index: 1; background: transparent; }
-.fbadge.lt { border-color: rgba(180,120,124,0.6); color: rgba(180,120,124,0.9); }
+/* DIVIDER */
+.dh{width:100%;height:1px;background:rgba(255,255,255,0.05);margin:10px 0;}
+.dh.lt{background:rgba(0,0,0,0.07);}
 
-/* PRICE BADGE — airy */
-.pbadge { border-top: 1px solid rgba(255,255,255,0.06); padding: 20px 0 0; margin-top: 24px; position: relative; z-index: 1; }
-.pbadge.lt { border-top-color: rgba(0,0,0,0.08); }
-.pb-label { font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 6px; }
-.pb-price {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 3rem; font-weight: 300; color: var(--blanco); line-height: 1;
-  text-shadow: 0 0 40px rgba(212,160,164,0.25);
-  transition: text-shadow 0.4s ease;
-}
-.pb-price:hover { text-shadow: 0 0 60px rgba(212,160,164,0.45); }
-.pb-price.dk {
-  color: #111;
-  text-shadow: 0 0 30px rgba(180,120,124,0.15);
-}
-.pb-sub { font-size: 0.6rem; color: var(--muted); margin-top: 5px; letter-spacing: 0.05em; }
+/* PILLS */
+.pills{display:flex;flex-wrap:wrap;gap:5px;margin-top:10px;}
+.pill{font-size:0.5rem;letter-spacing:0.16em;text-transform:uppercase;border:1px solid rgba(212,160,164,0.22);color:var(--rosa);padding:4px 9px;}
+.pill.lt{border-color:rgba(180,120,124,0.18);color:rgba(180,120,124,0.8);}
 
-/* QUOTE — minimal left border */
-.quote { border-left: 1px solid var(--rosa); padding: 0 0 0 16px; font-size: 0.85rem; font-style: italic; color: var(--muted); line-height: 1.85; margin-bottom: 20px; position: relative; z-index: 1; }
-.quote strong { color: var(--blanco); font-style: normal; font-weight: 400; }
+/* FASE BADGE */
+.fb{display:inline-flex;border:1px solid var(--rosa);color:var(--rosa);font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;padding:3px 10px;margin-bottom:10px;}
+.fb.lt{border-color:rgba(180,120,124,0.5);color:rgba(180,120,124,0.9);}
 
 /* LIST */
-.ilist { list-style: none; position: relative; z-index: 1; }
-.ilist li { font-size: 0.8rem; color: var(--muted); padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.04); display: flex; align-items: flex-start; gap: 10px; line-height: 1.6; }
-.ilist.lt li { color: #777; border-bottom-color: rgba(0,0,0,0.06); }
-.ilist li::before { content: '—'; color: var(--rosa); flex-shrink: 0; font-size: 0.7rem; margin-top: 2px; opacity: 0.7; }
-.ilist.lt li::before { color: rgba(180,120,124,0.7); }
-.ilist li strong { color: rgba(255,255,255,0.85); font-weight: 500; display: block; margin-bottom: 3px; font-size: 0.82rem; }
-.ilist.lt li strong { color: #222; }
+.ilist{list-style:none;}
+.ilist li{font-size:0.72rem;color:var(--muted);padding:7px 0;border-bottom:1px solid rgba(255,255,255,0.04);display:flex;align-items:flex-start;gap:8px;line-height:1.5;}
+.ilist.lt li{color:#777;border-bottom-color:rgba(0,0,0,0.06);}
+.ilist li::before{content:'—';color:var(--rosa);flex-shrink:0;font-size:0.65rem;margin-top:1px;opacity:0.6;}
+.ilist.lt li::before{color:rgba(180,120,124,0.6);}
+.ilist li strong{color:rgba(255,255,255,0.8);font-weight:500;display:block;margin-bottom:1px;font-size:0.73rem;}
+.ilist.lt li strong{color:#222;}
 
 /* TIMELINE */
-.tli { display: flex; gap: 14px; margin-bottom: 20px; position: relative; z-index: 1; }
-.tll { display: flex; flex-direction: column; align-items: center; width: 12px; flex-shrink: 0; margin-top: 4px; }
-.tld { width: 6px; height: 6px; border-radius: 50%; background: var(--rosa); flex-shrink: 0; }
-.tld.lt { background: rgba(180,120,124,0.8); }
-.tlln { width: 1px; flex: 1; background: rgba(255,255,255,0.06); margin: 4px 0; }
-.tlln.lt { background: rgba(0,0,0,0.1); }
-.tlt { font-size: 0.82rem; font-weight: 500; color: rgba(255,255,255,0.8); margin-bottom: 3px; letter-spacing: 0.02em; }
-.tlt.lt { color: #222; }
-.tlb { font-size: 0.75rem; color: var(--muted); line-height: 1.65; }
-.tlb.lt { color: #777; }
+.tli{display:flex;gap:11px;margin-bottom:12px;}
+.tll{display:flex;flex-direction:column;align-items:center;width:10px;flex-shrink:0;margin-top:3px;}
+.tld{width:5px;height:5px;border-radius:50%;background:var(--rosa);flex-shrink:0;}
+.tld.lt{background:rgba(180,120,124,0.8);}
+.tlln{width:1px;flex:1;background:rgba(255,255,255,0.06);margin:3px 0;}
+.tlln.lt{background:rgba(0,0,0,0.1);}
+.tlt{font-size:0.75rem;font-weight:500;color:rgba(255,255,255,0.8);margin-bottom:2px;}
+.tlt.lt{color:#222;}
+.tlb{font-size:0.68rem;color:var(--muted);line-height:1.55;}
+.tlb.lt{color:#777;}
 
-/* CARDS — borderless, spacing-based */
-.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; margin-top: 20px; background: rgba(255,255,255,0.04); position: relative; z-index: 1; }
-.card { background: var(--gris); padding: 16px 14px; }
-.card.lt { background: rgba(255,255,255,0.5); }
-.card-tag { font-size: 0.52rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--rosa); margin-bottom: 8px; }
-.card.lt .card-tag { color: rgba(180,120,124,0.8); }
-.card-body { font-size: 0.72rem; color: var(--muted); line-height: 1.6; }
-.card.lt .card-body { color: #777; }
+/* CARDS */
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,0.04);margin-top:12px;}
+.card{background:var(--gris);padding:10px 11px;}
+.card-t{font-size:0.48rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--rosa);margin-bottom:5px;}
+.card-b{font-size:0.65rem;color:var(--muted);line-height:1.5;}
+
+/* PRICE */
+.price-block{border-top:1px solid rgba(255,255,255,0.06);padding-top:12px;margin-top:12px;}
+.price-block.lt{border-top-color:rgba(0,0,0,0.08);}
+.pl{font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--muted);margin-bottom:4px;}
+.pn{font-family:'Cormorant Garamond',serif;font-size:2.6rem;font-weight:300;line-height:1;color:var(--blanco);text-shadow:0 0 40px rgba(212,160,164,0.2);}
+.pn.dk{color:var(--blanco);text-shadow:0 0 40px rgba(212,160,164,0.2);}
+.ps{font-size:0.55rem;color:var(--muted);margin-top:3px;}
 
 /* SUMMARY */
-.srow { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid var(--ll); position: relative; z-index: 1; }
-.srl { font-size: 0.78rem; color: #777; }
-.srp {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 1.3rem; font-weight: 300; color: #111;
-  transition: color 0.3s;
-}
-.stotal { padding: 16px 0; display: flex; justify-content: space-between; align-items: center; margin-top: 4px; border-top: 1px solid rgba(0,0,0,0.1); position: relative; z-index: 1; }
-.stl { font-size: 0.55rem; letter-spacing: 0.22em; text-transform: uppercase; color: #999; }
-.stp {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2rem; font-weight: 300; color: #111;
-}
-.special {
-  background: var(--negro); border: 1px solid rgba(212,160,164,0.2);
-  padding: 20px 16px; margin-top: 12px;
-  display: flex; justify-content: space-between; align-items: center;
-  position: relative; z-index: 1;
-  overflow: hidden;
-}
-.special::before {
-  content: '';
-  position: absolute; inset: 0;
-  background: radial-gradient(ellipse at 80% 50%, rgba(212,160,164,0.06) 0%, transparent 70%);
-  pointer-events: none;
-}
-.sp-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--rosa); font-weight: 400; margin-bottom: 4px; }
-.sp-sub { font-size: 0.58rem; color: var(--muted); }
-.sp-price {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 2.5rem; font-weight: 300; color: var(--blanco);
-  text-shadow: 0 0 50px rgba(212,160,164,0.3);
-}
-
-/* PAGE NUM */
-.pgnum { position: absolute; top: 80px; right: 6vw; font-family: 'Cormorant Garamond', serif; font-size: 3rem; font-weight: 300; color: rgba(255,255,255,0.03); line-height: 1; pointer-events: none; z-index: 0; }
-.pgnum.lt { color: rgba(0,0,0,0.04); }
-
-/* NO MORE SIDE-ACC */
-.side-acc { display: none; }
-
-/* COVER META */
-.cover-meta { border-top: 1px solid rgba(255,255,255,0.06); padding-top: 20px; margin-top: 32px; display: flex; justify-content: space-between; align-items: flex-end; position: relative; z-index: 1; }
-.cm-label { font-size: 0.55rem; letter-spacing: 0.25em; text-transform: uppercase; color: #444; margin-bottom: 5px; }
-.cm-name { font-family: 'Cormorant Garamond', serif; font-size: 1.4rem; font-weight: 300; font-style: italic; color: var(--blanco); }
-.cm-right { font-size: 0.62rem; color: #444; text-align: right; line-height: 2; }
-.cm-right span { color: var(--rosa); }
+.srow{display:flex;justify-content:space-between;align-items:center;padding:9px 0;border-bottom:1px solid var(--ll);}
+.srl{font-size:0.7rem;color:#777;}
+.srp{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;color:#111;}
+.stotal{padding:10px 0;display:flex;justify-content:space-between;align-items:center;border-top:1px solid rgba(0,0,0,0.1);margin-top:2px;}
+.stl{font-size:0.5rem;letter-spacing:0.2em;text-transform:uppercase;color:#888;}
+.stp{font-family:'Cormorant Garamond',serif;font-size:1.7rem;font-weight:300;color:#111;}
+.special{background:var(--negro);border:1px solid rgba(212,160,164,0.18);padding:14px;margin-top:8px;display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;}
+.special::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 80% 50%,rgba(212,160,164,0.05) 0%,transparent 70%);pointer-events:none;}
+.spl{font-size:0.5rem;letter-spacing:0.18em;text-transform:uppercase;color:var(--rosa);margin-bottom:3px;}
+.sps{font-size:0.55rem;color:var(--muted);}
+.spp{font-family:'Cormorant Garamond',serif;font-size:2.2rem;font-weight:300;color:var(--blanco);text-shadow:0 0 50px rgba(212,160,164,0.25);}
 
 /* FIRMA */
-.firma { border-top: 1px solid rgba(255,255,255,0.05); padding-top: 24px; margin-top: 28px; position: relative; z-index: 1; }
-.firma-name { font-family: 'Cormorant Garamond', serif; font-size: 1.3rem; font-style: italic; margin-bottom: 4px; color: rgba(255,255,255,0.8); }
-.firma-sub { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: #444; margin-bottom: 14px; }
-.firma-contact { font-size: 0.72rem; color: #555; line-height: 2; }
-.firma-contact span { color: var(--rosa); }
+.firma{border-top:1px solid rgba(255,255,255,0.05);padding-top:14px;margin-top:14px;}
+.fn{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-style:italic;color:rgba(255,255,255,0.7);margin-bottom:3px;}
+.fs{font-size:0.5rem;letter-spacing:0.18em;text-transform:uppercase;color:#444;margin-bottom:8px;}
+.fc{font-size:0.65rem;color:#555;}
+.fc span{color:var(--rosa);}
+
+/* COVER META */
+.cmeta{border-top:1px solid rgba(255,255,255,0.06);padding-top:14px;margin-top:16px;display:flex;justify-content:space-between;align-items:flex-end;}
+.cml-l{font-size:0.5rem;letter-spacing:0.22em;text-transform:uppercase;color:#444;margin-bottom:4px;}
+.cml-n{font-family:'Cormorant Garamond',serif;font-size:1.2rem;font-weight:300;font-style:italic;}
+.cmr{font-size:0.58rem;color:#444;text-align:right;line-height:1.9;}
+.cmr span{color:var(--rosa);}
 
 /* SCROLL INDICATOR */
-.scroll-ind { text-align: center; padding: 32px 0 8px; font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: #555; position: relative; z-index: 1; }
-.scroll-ind .arrow-wrap { display: flex; flex-direction: column; align-items: center; gap: 5px; margin-bottom: 12px; }
-.scroll-ind .arr { width: 9px; height: 9px; border-right: 1px solid var(--rosa); border-bottom: 1px solid var(--rosa); transform: rotate(45deg); opacity: 0; }
-.scroll-ind .arr:nth-child(1) { animation: arr-fall 1.5s ease-in-out infinite 0s; }
-.scroll-ind .arr:nth-child(2) { animation: arr-fall 1.5s ease-in-out infinite 0.22s; }
-.scroll-ind .arr:nth-child(3) { animation: arr-fall 1.5s ease-in-out infinite 0.44s; }
-@keyframes arr-fall {
-  0%   { opacity: 0; transform: rotate(45deg) translate(-3px,-3px); }
-  50%  { opacity: 0.9; }
-  100% { opacity: 0; transform: rotate(45deg) translate(3px,3px); }
+.scroll-ind{text-align:center;padding-top:14px;font-size:0.55rem;letter-spacing:0.22em;text-transform:uppercase;color:#333;}
+.arrow-wrap{display:flex;flex-direction:column;align-items:center;gap:4px;margin-bottom:7px;}
+.arr{width:7px;height:7px;border-right:1px solid var(--rosa);border-bottom:1px solid var(--rosa);transform:rotate(45deg);opacity:0;}
+.arr:nth-child(1){animation:arr-fall 1.5s ease-in-out infinite 0s;}
+.arr:nth-child(2){animation:arr-fall 1.5s ease-in-out infinite 0.22s;}
+.arr:nth-child(3){animation:arr-fall 1.5s ease-in-out infinite 0.44s;}
+@keyframes arr-fall{
+  0%{opacity:0;transform:rotate(45deg) translate(-3px,-3px);}
+  50%{opacity:0.9;}
+  100%{opacity:0;transform:rotate(45deg) translate(3px,3px);}
 }
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to   { opacity: 1; transform: translateY(0); }
+/* WA CTA */
+.wa-cta{display:block;text-decoration:none;margin-top:12px;background:var(--rosa);transition:transform 0.25s;}
+.wa-cta:active{transform:scale(0.98);}
+.wa-inner{display:flex;align-items:center;gap:12px;padding:13px 16px;color:#0A0A0A;}
+.wa-label{font-size:0.8rem;font-weight:600;}
+.wa-sub{font-size:0.6rem;color:rgba(10,10,10,0.5);margin-top:1px;}
+.wa-arrow{margin-left:auto;font-size:1rem;color:rgba(10,10,10,0.4);transition:transform 0.3s;}
+.wa-cta:hover .wa-arrow{transform:translateX(5px);}
+
+/* WA FLOAT */
+.wa-float{position:fixed;bottom:18px;right:18px;z-index:200;width:48px;height:48px;border-radius:50%;background:#25D366;display:flex;align-items:center;justify-content:center;box-shadow:0 4px 20px rgba(37,211,102,0.3);animation:wapulse 2.5s ease-in-out infinite;}
+@keyframes wapulse{
+  0%,100%{box-shadow:0 4px 20px rgba(37,211,102,0.3);}
+  50%{box-shadow:0 4px 28px rgba(37,211,102,0.5),0 0 0 7px rgba(37,211,102,0.07);}
 }
+
+/* PGNUM */
+.pgnum{position:absolute;top:52px;right:6vw;font-family:'Cormorant Garamond',serif;font-size:2.5rem;font-weight:300;color:rgba(255,255,255,0.025);line-height:1;pointer-events:none;z-index:0;}
+.pgnum.lt{color:rgba(0,0,0,0.03);}
 </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav class="nav">
   <div class="nav-logo">sombrero <span>rosa</span></div>
-  <div class="nav-badge">Propuesta Comercial</div>
+  <div class="nav-r">Propuesta Comercial</div>
 </nav>
 
-<!-- S1: PORTADA DARK -->
-<section class="section dark" style="padding-top:80px;">
-  <div class="gridbg"></div>
+<!-- DOTS -->
+<div class="dots" id="dots"></div>
+
+<div class="snap" id="snap">
+
+<!-- S1 PORTADA -->
+<section class="s dk" data-idx="0">
+  <canvas id="particles" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.3;"></canvas>
   <div class="pgnum">01</div>
-  <div class="side-acc"></div>
-
-  <div class="tag" style="position:relative;z-index:1;">Propuesta Comercial · Abril 2026</div>
-  <div class="h-xl" style="position:relative;z-index:1;">
-    Identidad<br><span class="ac">fundacional.</span>
+  <div class="tag">Propuesta Comercial · Abril 2026</div>
+  <div class="hxl">Identidad<br><span class="ac">fundacional.</span></div>
+  <div class="qt">
+    Estimado,<br>Gracias por confiar en Sombrero Rosa. Es un placer presentarte esta propuesta para la creacion de la identidad fundacional de su nueva empresa distribuidora de agua y hielo.
   </div>
-
-  <div class="quote" style="position:relative;z-index:1;margin-bottom:16px;">
-    Estimado,<br><br>
-    Gracias por confiar en Sombrero Rosa. Es un placer presentarte esta propuesta para la creacion de la identidad fundacional de su nueva empresa distribuidora de agua y hielo.
+  <div class="body">En un mercado competitivo, el nombre y la imagen visual son el primer filtro de confianza para tus clientes. Nuestro enfoque asegura que tu marca comunique calidad, logistica eficiente y frescura.</div>
+  <div class="cmeta">
+    <div><div class="cml-l">Preparado para</div><div class="cml-n">Fede Aiello</div></div>
+    <div class="cmr">Fecha · <span>21 Abril 2026</span><br>N° · <span>Aguas-001</span></div>
   </div>
-
-  <div class="body" style="position:relative;z-index:1;margin-bottom:20px;">
-    En un mercado competitivo, el nombre y la imagen visual no son solo un "adorno"; son el primer filtro de confianza para tus clientes. Nuestro enfoque asegura que tu marca no solo se vea impecable, sino que comunique los atributos clave de su negocio: calidad, logistica eficiente y frescura.
-  </div>
-
-  <div class="body" style="position:relative;z-index:1;margin-bottom:24px;color:#666;">
-    A continuacion, detallamos el proceso estrategico y creativo propuesto:
-  </div>
-
-  <div class="cover-meta" style="position:relative;z-index:1;">
-    <div class="cm-left">
-      <div class="cm-label">Preparado para</div>
-      <div class="cm-name">Fede Aiello</div>
-    </div>
-    <div class="cm-right">
-      Fecha · <span>21 de Abril de 2026</span><br>
-      N° · <span>Aguas-001</span>
-    </div>
-  </div>
-
   <div class="scroll-ind">
-    <div class="arrow-wrap">
-      <span class="arr"></span>
-      <span class="arr"></span>
-      <span class="arr"></span>
-    </div>
+    <div class="arrow-wrap"><span class="arr"></span><span class="arr"></span><span class="arr"></span></div>
     Desliza para ver la propuesta
   </div>
 </section>
 
-<!-- S2: ESTRUCTURA LIGHT -->
-<section class="section light">
-  <div class="gridbg lt"></div>
+<!-- S2 ESTRUCTURA -->
+<section class="s lt" data-idx="1">
+  <div class="bw lt">MARCA</div>
   <div class="pgnum lt">02</div>
-  <div class="bgword lt">MARCA</div>
-
-  <div class="tag lt">Estructura de la propuesta</div>
-  <div class="h-lg">El proceso<br><span class="acd">estrategico.</span></div>
-
-  <div class="pills" style="margin-bottom:20px;margin-top:0;">
-    <span class="pill lt">Calidad</span>
-    <span class="pill lt">Logistica eficiente</span>
-    <span class="pill lt">Frescura</span>
+  <div class="tag lt">Estructura</div>
+  <div class="hlg">El proceso<br><span class="acd">estrategico.</span></div>
+  <div class="pills" style="margin-bottom:12px;margin-top:0;">
+    <span class="pill lt">Calidad</span><span class="pill lt">Logistica eficiente</span><span class="pill lt">Frescura</span>
   </div>
-
   <div class="dh lt"></div>
-
-  <div class="tli"><div class="tll"><div class="tld lt"></div><div class="tlln lt"></div></div><div><div class="tlt lt">Fase 1 · Naming y Estrategia</div><div class="tlb lt">ADN de la marca. Naming estrategico y 3 a 5 opciones finalistas con justificacion conceptual y verificacion de dominio.</div></div></div>
-  <div class="tli"><div class="tll"><div class="tld lt"></div><div class="tlln lt"></div></div><div><div class="tlt lt">Fase 2 · Identidad Visual</div><div class="tlb lt">Sistema grafico completo con logo, paleta de colores, tipografias y manual de marca (brandbook).</div></div></div>
-  <div class="tli"><div class="tll"><div class="tld lt"></div></div><div><div class="tlt lt">Fase 3 · Aplicaciones de Marca</div><div class="tlb lt">Branding vehicular, etiquetas para envases, papeleria comercial y firma de correo institucional.</div></div></div>
+  <div class="tli"><div class="tll"><div class="tld lt"></div><div class="tlln lt"></div></div><div><div class="tlt lt">Fase 1 · Naming y Estrategia</div><div class="tlb lt">Naming estrategico, 3 a 5 opciones finalistas con justificacion conceptual y verificacion de dominio.</div></div></div>
+  <div class="tli"><div class="tll"><div class="tld lt"></div><div class="tlln lt"></div></div><div><div class="tlt lt">Fase 2 · Identidad Visual</div><div class="tlb lt">Logo, paleta de colores, tipografias y manual de marca (brandbook) completo.</div></div></div>
+  <div class="tli"><div class="tll"><div class="tld lt"></div></div><div><div class="tlt lt">Fase 3 · Aplicaciones de Marca</div><div class="tlb lt">Branding vehicular, etiquetas, papeleria y firma de correo institucional.</div></div></div>
 </section>
 
-<!-- S3: FASE 1 DARK -->
-<section class="section dark">
-  <div class="gridbg"></div>
-  <div class="side-acc"></div>
-  <div class="bgword">NAMING</div>
+<!-- S3 FASE 1 -->
+<section class="s dk" data-idx="2">
+  <div class="bw">NAMING</div>
   <div class="pgnum">03</div>
-
-  <div class="fbadge">Fase 01</div>
-  <div class="h-lg">Desarrollo de Nombre<br>y <span class="ac">Estrategia.</span></div>
-  <div class="body" style="margin-bottom:8px;">El objetivo es encontrar un nombre unico, memorable y registrable que conecte con el publico objetivo y diferencie a Aguas Cimes de los competidores genericos.</div>
-
+  <div class="fb">Fase 01</div>
+  <div class="hlg">Naming y<br><span class="ac">Estrategia.</span></div>
+  <div class="body" style="margin-bottom:8px;">Encontrar un nombre unico, memorable y registrable que conecte con el publico y diferencie a la marca de competidores genericos.</div>
   <div class="dh"></div>
-
   <ul class="ilist">
-    <li><div><strong>Briefing de Descubrimiento</strong>Reunion inicial para extraer la esencia del negocio, el perfil de cliente (empresas/comercios/hogares) y los valores diferenciales (ej. rapidez, pureza).</div></li>
-    <li><div><strong>Auditoria Competitiva</strong>Analisis de los nombres de los competidores locales/regionales para evitar similitudes y encontrar oportunidades de diferenciacion.</div></li>
-    <li><div><strong>Brainstorming y Filtro Estrategico</strong>Exploracion de territorios conceptuales (ej. frescura, origen, pureza).</div></li>
-    <li><div><strong>Presentacion de Naming — El Entregable</strong>Presentacion de 3 a 5 opciones de nombres finalistas. Justificacion conceptual y narrativa de cada nombre. Verificacion preliminar de disponibilidad de dominio web (.com / .com.ar).</div></li>
+    <li><div><strong>Briefing de Descubrimiento</strong>Esencia del negocio, perfil de cliente y valores diferenciales.</div></li>
+    <li><div><strong>Auditoria Competitiva</strong>Analisis de competidores locales/regionales para detectar oportunidades.</div></li>
+    <li><div><strong>Brainstorming Estrategico</strong>Territorios conceptuales: frescura, origen, pureza, logistica.</div></li>
+    <li><div><strong>Presentacion de Naming</strong>3 a 5 opciones finalistas con justificacion y verificacion de dominio web.</div></li>
   </ul>
-
-  <div class="pbadge">
-    <div class="pb-label">Inversion · Fase 1</div>
-    <div class="pb-price">$400.000</div>
-    <div class="pb-sub">ARS · sin IVA · Plazo: 2 semanas desde aprobacion</div>
+  <div class="price-block">
+    <div class="pl">Inversion · Fase 1</div>
+    <div class="pn" data-val="400000">$400.000</div>
+    <div class="ps">ARS · sin IVA · Plazo: 2 semanas desde aprobacion</div>
   </div>
 </section>
 
-<!-- S4: FASE 2 LIGHT -->
-<section class="section light">
-  <div class="gridbg lt"></div>
-  <div class="bgword lt">IDENTIDAD</div>
-  <div class="pgnum lt">04</div>
-
-  <div class="fbadge lt">Fase 02</div>
-  <div class="h-lg">Diseno de<br>Identidad <span class="acd">Visual.</span></div>
-  <div class="bodylt" style="margin-bottom:8px;">Sistema grafico profesional, limpio y moderno. Preparado para entornos digitales y la flota de logistica de Aguas Cimes.</div>
-
-  <div class="dh lt"></div>
-
-  <ul class="ilist lt">
-    <li><div><strong style="color:#111;">Creacion de Isologo/Logotipo</strong>Diseno del simbolo y tipografia principal de la marca. Se presentaran 2 (dos) propuestas de diseno iniciales basadas en el nombre elegido.</div></li>
-    <li><div><strong style="color:#111;">Paleta de Colores y Tipografias</strong>Definicion de los colores corporativos y fuentes secundarias para mantener coherencia en todas sus comunicaciones.</div></li>
-    <li><div><strong style="color:#111;">Desarrollo de Elementos Graficos</strong>Creacion de tramas, iconos o recursos visuales de apoyo.</div></li>
-    <li><div><strong style="color:#111;">Entregable: Manual de Marca Basico (Brandbook)</strong>Un documento digital (PDF) que establece las reglas de uso del logo: variantes de color y blanco/negro, areas de respiracion y usos incorrectos permitidos.</div></li>
-    <li><div><strong style="color:#111;">Entrega de Archivos Originales</strong>Formatos vectoriales (.AI/.EPS/.SVG) para imprenta y formatos digitales (.PNG/.JPG) en alta resolucion.</div></li>
-  </ul>
-
-  <div class="pbadge lt">
-    <div class="pb-label">Inversion · Fase 2</div>
-    <div class="pb-price dk">$600.000</div>
-    <div class="pb-sub">ARS · sin IVA · Incluye Brandbook completo en PDF</div>
-  </div>
-</section>
-
-<!-- S5: FASE 3 DARK -->
-<section class="section dark2">
-  <div class="gridbg"></div>
-  <div class="bgword">MARCA</div>
-  <div class="pgnum">05</div>
-
-  <div class="fbadge">Fase 03</div>
-  <div class="h-lg">Aplicaciones<br>de <span class="ac">Marca.</span></div>
-  <div class="body" style="margin-bottom:16px;">Para que la marca nazca lista para operar comercialmente, realizaremos el diseno de las piezas clave para su dia a dia. Incluye el diseno (Archivos listos para imprenta) de:</div>
-
-  <div class="cards">
-    <div class="card">
-      <div class="card-tag">Branding Vehicular</div>
-      <div class="card-body">Diseno de rotulacion / ploteo para la flota de distribucion (hasta 2 modelos de vehiculos: ej. camion y camioneta). Fundamental para la visibilidad en calle.</div>
-    </div>
-    <div class="card">
-      <div class="card-tag">Diseno de Etiqueta / Faja</div>
-      <div class="card-body">Diseno para bidones o envases principales (1 formato base).</div>
-    </div>
-    <div class="card">
-      <div class="card-tag">Papeleria Comercial</div>
-      <div class="card-body">Diseno de Tarjetas de Presentacion y Hoja Membretada (Word/PDF) para facturacion y presupuestos.</div>
-    </div>
-    <div class="card">
-      <div class="card-tag">Firma de Correo Institucional (HTML)</div>
-      <div class="card-body">Diseno codificado para los correos electronicos del equipo de ventas y administracion.</div>
-    </div>
-  </div>
-
-  <div class="pbadge">
-    <div class="pb-label">Inversion · Fase 3</div>
-    <div class="pb-price">$350.000</div>
-    <div class="pb-sub">ARS · sin IVA · Archivos listos para imprenta</div>
-  </div>
-</section>
-
-<!-- S6: INVERSION LIGHT -->
-<section class="section light">
-  <div class="gridbg lt"></div>
-  <div class="pgnum lt">06</div>
-
-  <div class="tag lt">Resumen de Inversion</div>
-  <div class="h-lg">Todo lo que<br>tu marca <span class="acd">necesita.</span></div>
-
-  <div class="dh lt"></div>
-
-  <div class="srow"><span class="srl">Fase 1 · Naming y Estrategia</span><span class="srp">$400.000</span></div>
-  <div class="srow"><span class="srl">Fase 2 · Identidad Visual</span><span class="srp">$600.000</span></div>
-  <div class="srow" style="border-bottom:none;"><span class="srl">Fase 3 · Aplicaciones</span><span class="srp">$350.000</span></div>
-
-  <div class="stotal">
-    <div class="stl">Inversion Total por Fases Separadas</div>
-    <div class="stp">$1.350.000</div>
-  </div>
-
-  <div class="special">
-    <div class="sp-label">Proyecto Integral · Fases 1, 2 y 3</div>
-    <div class="sp-sub">Ahorras $150.000 contratando el paquete completo</div>
-    <div class="sp-price">$1.200.000 ARS</div>
-  </div>
-
-  <div class="dh lt"></div>
-
-  <div class="bodylt" style="font-size:0.78rem;">
-    Esta cotizacion tiene una validez de <strong style="color:#111;">15 dias</strong>. Si estas de acuerdo con los terminos, por favor confirmar por esta via para coordinar una reunion de kick-off para comenzar con la Fase 1. Quedamos atentos a cualquier consulta. Los precios no incluyen IVA.
-  </div>
-  <div class="pills" style="margin-top:12px;">
-    <span class="pill lt">Archivos originales</span>
-    <span class="pill lt">2 cambios por etapa</span>
-    <span class="pill lt">Reunion de kick-off</span>
-  </div>
-</section>
-
-<!-- S7: PROXIMOS PASOS DARK -->
-<section class="section dark" style="padding-bottom:64px;">
-  <div class="gridbg"></div>
-  <div class="side-acc"></div>
-  <div class="pgnum">07</div>
-
-  <div class="tag">Proximos Pasos</div>
-  <div class="h-xl">Simple,<br>claro<br><span class="ac">y efectivo.</span></div>
-
+<!-- S4 FASE 2 -->
+<section class="s dk2" data-idx="3">
+  <div class="bw">IDENTIDAD</div>
+  <div class="pgnum">04</div>
+  <div class="fb">Fase 02</div>
+  <div class="hlg">Identidad<br><span class="ac">Visual.</span></div>
+  <div class="body" style="margin-bottom:8px;">Sistema grafico profesional para entornos digitales y flota de logistica.</div>
   <div class="dh"></div>
-
-  <div class="tli"><div class="tll"><div class="tld"></div><div class="tlln"></div></div><div><div class="tlt">01 · Confirmacion</div><div class="tlb">Confirmar por esta via para coordinar una reunion de kick-off para comenzar con la Fase 1.</div></div></div>
-  <div class="tli"><div class="tll"><div class="tld"></div><div class="tlln"></div></div><div><div class="tlt">02 · Reunion de Kick-Off</div><div class="tlb">Briefing de descubrimiento y definicion del universo conceptual de Aguas Cimes.</div></div></div>
-  <div class="tli"><div class="tll"><div class="tld"></div><div class="tlln"></div></div><div><div class="tlt">03 · Entrega de Naming</div><div class="tlb">En 2 semanas desde la aprobacion del proyecto presentamos las opciones finalistas con justificacion conceptual y disponibilidad de dominio.</div></div></div>
-  <div class="tli"><div class="tll"><div class="tld"></div></div><div><div class="tlt">04 · Inicio Identidad Visual</div><div class="tlb">Con el nombre aprobado, comenzamos el diseno del sistema grafico completo.</div></div></div>
-
-  <div class="firma">
-    <div class="firma-name">Equipo Sombrero Rosa</div>
-    <div class="firma-sub">Agencia Boutique · MKT Studio</div>
-    <div class="firma-contact">
-      <span>Web</span> · www.sombrerorosa.com
-    </div>
+  <ul class="ilist">
+    <li><div><strong>Isologo/Logotipo</strong>2 propuestas de diseno basadas en el nombre elegido.</div></li>
+    <li><div><strong>Paleta y Tipografias</strong>Colores corporativos y fuentes para coherencia total.</div></li>
+    <li><div><strong>Manual de Marca (Brandbook)</strong>Variantes, areas de respiracion y usos incorrectos. PDF digital.</div></li>
+    <li><div><strong>Archivos Originales</strong>Vectoriales .AI/.SVG y digitales .PNG/.JPG en alta resolucion.</div></li>
+  </ul>
+  <div class="price-block">
+    <div class="pl">Inversion · Fase 2</div>
+    <div class="pn" data-val="600000">$600.000</div>
+    <div class="ps">ARS · sin IVA · Incluye Brandbook completo en PDF</div>
   </div>
+</section>
 
-  <!-- CTA WhatsApp -->
+<!-- S5 FASE 3 -->
+<section class="s dk2" data-idx="4">
+  <div class="bw">MARCA</div>
+  <div class="pgnum">05</div>
+  <div class="fb">Fase 03</div>
+  <div class="hlg">Aplicaciones<br>de <span class="ac">Marca.</span></div>
+  <div class="body" style="margin-bottom:4px;">La marca lista para operar comercialmente desde el dia uno.</div>
+  <div class="cards">
+    <div class="card"><div class="card-t">Branding Vehicular</div><div class="card-b">Rotulacion / ploteo para flota. Hasta 2 modelos.</div></div>
+    <div class="card"><div class="card-t">Etiqueta / Faja</div><div class="card-b">Diseno para bidones o envases. 1 formato base.</div></div>
+    <div class="card"><div class="card-t">Papeleria Comercial</div><div class="card-b">Tarjetas y hoja membretada Word/PDF.</div></div>
+    <div class="card"><div class="card-t">Firma Institucional</div><div class="card-b">Firma HTML para equipo de ventas y admin.</div></div>
+  </div>
+  <div class="price-block">
+    <div class="pl">Inversion · Fase 3</div>
+    <div class="pn" data-val="350000">$350.000</div>
+    <div class="ps">ARS · sin IVA · Archivos listos para imprenta</div>
+  </div>
+</section>
+
+<!-- S6 INVERSION -->
+<section class="s lt" data-idx="5">
+  <div class="pgnum lt">06</div>
+  <div class="tag lt">Resumen de Inversion</div>
+  <div class="hlg">Todo lo que<br>tu marca <span class="acd">necesita.</span></div>
+  <div class="dh lt"></div>
+  <div class="srow"><span class="srl">Fase 1 · Naming y Estrategia</span><span class="srp" data-val="400000">$400.000</span></div>
+  <div class="srow"><span class="srl">Fase 2 · Identidad Visual</span><span class="srp" data-val="600000">$600.000</span></div>
+  <div class="srow" style="border-bottom:none;"><span class="srl">Fase 3 · Aplicaciones</span><span class="srp" data-val="350000">$350.000</span></div>
+  <div class="stotal">
+    <div class="stl">Total fases separadas</div>
+    <div class="stp" data-val="1350000">$1.350.000</div>
+  </div>
+  <div class="special">
+    <div><div class="spl">Proyecto Integral · Fases 1, 2 y 3</div><div class="sps">Ahorras $150.000 con el paquete completo</div></div>
+    <div class="spp" data-val="1200000">$1.200.000</div>
+  </div>
+</section>
+
+<!-- S7 PROXIMOS PASOS -->
+<section class="s dk" data-idx="6">
+  <div class="pgnum">07</div>
+  <div class="tag">Proximos Pasos</div>
+  <div class="hlg">Simple, claro<br><span class="ac">y efectivo.</span></div>
+  <div class="dh"></div>
+  <div class="tli"><div class="tll"><div class="tld"></div><div class="tlln"></div></div><div><div class="tlt">01 · Confirmacion</div><div class="tlb">Confirmar por esta via para coordinar la reunion de kick-off.</div></div></div>
+  <div class="tli"><div class="tll"><div class="tld"></div><div class="tlln"></div></div><div><div class="tlt">02 · Reunion de Kick-Off</div><div class="tlb">Briefing y definicion del universo conceptual de la marca.</div></div></div>
+  <div class="tli"><div class="tll"><div class="tld"></div><div class="tlln"></div></div><div><div class="tlt">03 · Entrega de Naming</div><div class="tlb">En 2 semanas presentamos opciones finalistas con justificacion.</div></div></div>
+  <div class="tli"><div class="tll"><div class="tld"></div></div><div><div class="tlt">04 · Inicio Identidad Visual</div><div class="tlb">Con el nombre aprobado comenzamos el sistema grafico completo.</div></div></div>
+  <div class="firma">
+    <div class="fn">Equipo Sombrero Rosa</div>
+    <div class="fs">Agencia Boutique · MKT Studio</div>
+    <div class="fc"><span>Web</span> · www.sombrerorosa.com</div>
+  </div>
   <a class="wa-cta" href="https://wa.me/5491172465685?text=Hola%20Sombrero%20Studio%2C%20quiero%20empezar%20con%20ustedes" target="_blank">
-    <div class="wa-cta-inner">
-      <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      <div>
-        <div class="wa-cta-label">Quiero empezar</div>
-        <div class="wa-cta-sub">Escribinos por WhatsApp</div>
-      </div>
-      <div class="wa-cta-arrow">→</div>
+    <div class="wa-inner">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      <div><div class="wa-label">Quiero empezar</div><div class="wa-sub">Escribinos por WhatsApp</div></div>
+      <div class="wa-arrow">→</div>
     </div>
   </a>
 </section>
 
-<!-- WA FLOTANTE -->
-<a class="wa-float" href="https://wa.me/5491172465685?text=Hola%20Sombrero%20Studio%2C%20quiero%20empezar%20con%20ustedes" target="_blank" aria-label="WhatsApp">
-  <svg viewBox="0 0 24 24" fill="white" width="26" height="26"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</div><!-- end snap -->
+
+<a class="wa-float" href="https://wa.me/5491172465685?text=Hola%20Sombrero%20Studio%2C%20quiero%20empezar%20con%20ustedes" target="_blank">
+  <svg viewBox="0 0 24 24" fill="white" width="24" height="24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
-<style>
-/* WA CTA block */
-.wa-cta {
-  display: block; text-decoration: none; margin-top: 24px;
-  background: var(--rosa); position: relative; z-index: 1;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.wa-cta:active { transform: scale(0.98); }
-.wa-cta-inner {
-  display: flex; align-items: center; gap: 14px;
-  padding: 18px 20px; color: #0E0E0E;
-}
-.wa-cta-label { font-size: 0.88rem; font-weight: 600; letter-spacing: 0.05em; }
-.wa-cta-sub { font-size: 0.68rem; color: rgba(14,14,14,0.55); margin-top: 2px; }
-.wa-cta-arrow { margin-left: auto; font-size: 1.2rem; color: rgba(14,14,14,0.5); transition: transform 0.3s; }
-.wa-cta:hover .wa-cta-arrow { transform: translateX(5px); }
-
-/* WA flotante */
-.wa-float {
-  position: fixed; bottom: 20px; right: 20px; z-index: 200;
-  width: 52px; height: 52px; border-radius: 50%;
-  background: #25D366;
-  display: flex; align-items: center; justify-content: center;
-  box-shadow: 0 6px 24px rgba(37,211,102,0.35);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  animation: wa-pulse 2.5s ease-in-out infinite;
-}
-.wa-float:active { transform: scale(0.92); }
-@keyframes wa-pulse {
-  0%, 100% { box-shadow: 0 6px 24px rgba(37,211,102,0.35); }
-  50%       { box-shadow: 0 6px 32px rgba(37,211,102,0.55), 0 0 0 8px rgba(37,211,102,0.08); }
-}
-</style>
-
 <script>
-// ── PARTÍCULAS DE FONDO en portada ──
-(function() {
-  const cover = document.querySelector('.section.dark');
-  if (!cover) return;
-  const canvas = document.createElement('canvas');
-  canvas.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:0.35;';
-  cover.prepend(canvas);
-  const ctx = canvas.getContext('2d');
-  let W, H, pts = [];
-  function resize() {
-    W = canvas.width = cover.offsetWidth;
-    H = canvas.height = cover.offsetHeight;
-  }
-  function init() {
-    pts = Array.from({length: 40}, () => ({
-      x: Math.random() * W, y: Math.random() * H,
-      vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
-      r: Math.random() * 1.5 + 0.5
-    }));
-  }
-  function draw() {
-    ctx.clearRect(0, 0, W, H);
-    pts.forEach(p => {
-      p.x += p.vx; p.y += p.vy;
-      if (p.x < 0 || p.x > W) p.vx *= -1;
-      if (p.y < 0 || p.y > H) p.vy *= -1;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(232,180,184,0.6)';
-      ctx.fill();
-    });
-    // líneas entre puntos cercanos
-    for (let i = 0; i < pts.length; i++) {
-      for (let j = i + 1; j < pts.length; j++) {
-        const dx = pts[i].x - pts[j].x, dy = pts[i].y - pts[j].y;
-        const dist = Math.sqrt(dx*dx + dy*dy);
-        if (dist < 80) {
-          ctx.beginPath();
-          ctx.moveTo(pts[i].x, pts[i].y);
-          ctx.lineTo(pts[j].x, pts[j].y);
-          ctx.strokeStyle = `rgba(232,180,184,${0.12 * (1 - dist/80)})`;
-          ctx.lineWidth = 0.5;
-          ctx.stroke();
-        }
-      }
-    }
-    requestAnimationFrame(draw);
-  }
-  resize(); init(); draw();
-  window.addEventListener('resize', () => { resize(); init(); });
-})();
+const TOTAL = 7;
 
-// ── NÚMERO ANIMADO en precios ──
-function animateNumber(el, target) {
-  let start = 0;
-  const duration = 900;
-  const startTime = performance.now();
-  function step(now) {
-    const t = Math.min((now - startTime) / duration, 1);
-    const ease = 1 - Math.pow(1 - t, 3);
-    const val = Math.round(start + (target - start) * ease);
-    el.textContent = '$' + val.toLocaleString('es-AR');
-    if (t < 1) requestAnimationFrame(step);
+// ── DOTS ──
+const dotsEl = document.getElementById('dots');
+for(let i=0;i<TOTAL;i++){
+  const d = document.createElement('div');
+  d.className='dot'+(i===0?' active':'');
+  d.onclick=()=>goTo(i);
+  dotsEl.appendChild(d);
+}
+function updateDots(idx){
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===idx));
+}
+
+// ── SNAP SCROLL TRACKING ──
+const snap = document.getElementById('snap');
+const sections = document.querySelectorAll('.s');
+let currentIdx = 0;
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting && e.intersectionRatio>=0.3){
+      const idx = parseInt(e.target.dataset.idx);
+      currentIdx = idx;
+      updateDots(idx);
+      animateSection(e.target);
+    }
+  });
+},{root:snap,threshold:0.3});
+sections.forEach(s=>io.observe(s));
+
+function goTo(idx){
+  sections[idx].scrollIntoView({behavior:'smooth'});
+}
+
+// ── ANIMATE NUMBER ──
+function animNum(el){
+  const val = parseInt(el.dataset.val);
+  if(!val) return;
+  const dur = 900;
+  const t0 = performance.now();
+  function step(now){
+    const t = Math.min((now-t0)/dur,1);
+    const ease = 1-Math.pow(1-t,3);
+    el.textContent = '$'+Math.round(val*ease).toLocaleString('es-AR');
+    if(t<1) requestAnimationFrame(step);
   }
   requestAnimationFrame(step);
 }
 
-// ── ANIMACIONES EN SCROLL ──
-const io = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (!e.isIntersecting) return;
+// ── ANIMATE SECTION ──
+const animated = new Set();
+function animateSection(sec){
+  if(animated.has(sec)) return;
+  animated.add(sec);
 
-    // animar elementos hijos
-    const kids = e.target.querySelectorAll('.tag,.h-xl,.h-lg,.body,.bodylt,.quote,.ilist,.cards,.pbadge,.stotal,.special,.tli,.firma,.pills,.dh,.fbadge,.wa-cta');
-    kids.forEach((el, i) => {
-      el.style.opacity = '0';
-      el.style.transform = 'translateY(18px)';
-      el.style.transition = `opacity 0.55s ease ${i * 0.07}s, transform 0.55s ease ${i * 0.07}s`;
-      setTimeout(() => {
-        el.style.opacity = '1';
-        el.style.transform = 'translateY(0)';
-      }, 30);
+  // ensure all elements are visible first (fallback)
+  sec.querySelectorAll('[data-val]').forEach(el=>{
+    el.style.opacity='1';el.style.transform='none';
+  });
+
+  // fade-up children
+  const kids = sec.querySelectorAll('.tag,.hxl,.hlg,.body,.bodylt,.qt,.ilist,.cards,.price-block,.stotal,.special,.tli,.firma,.pills,.dh,.fb,.wa-cta,.cmeta,.scroll-ind');
+  kids.forEach((el,i)=>{
+    el.style.opacity='0';
+    el.style.transform='translateY(14px)';
+    el.style.transition=`opacity 0.5s ease ${i*0.055}s, transform 0.5s ease ${i*0.055}s`;
+    setTimeout(()=>{
+      el.style.opacity='1';
+      el.style.transform='translateY(0)';
+    },20);
+  });
+
+  // animate all prices after elements appear
+  setTimeout(()=>{
+    sec.querySelectorAll('[data-val]').forEach((el,i)=>{
+      el.style.opacity='1';
+      setTimeout(()=>animNum(el), i*100);
     });
+  }, 300);
 
-    // animar números en precio — todos los elementos de precio
-    e.target.querySelectorAll('.pb-price, .stp, .sp-price, .srp').forEach((el, idx) => {
-      const raw = el.textContent.replace(/[^0-9]/g, '');
-      const num = parseInt(raw);
-      if (num > 0) {
-        el.textContent = '$0';
-        setTimeout(() => animateNumber(el, num), 300 + idx * 150);
-      }
+  // bgword slide in
+  const bw = sec.querySelector('.bw');
+  if(bw){
+    bw.style.opacity='0';bw.style.transform='translateX(24px)';
+    bw.style.transition='opacity 0.7s ease 0.1s, transform 0.7s ease 0.1s';
+    setTimeout(()=>{bw.style.opacity='1';bw.style.transform='translateX(0)';},20);
+  }
+}
+
+// ── PARTICLES on cover ──
+(function(){
+  const canvas = document.getElementById('particles');
+  const cover = document.querySelector('.s.dk');
+  if(!canvas||!cover) return;
+  const ctx = canvas.getContext('2d');
+  let W,H,pts=[];
+  function resize(){W=canvas.width=cover.offsetWidth;H=canvas.height=cover.offsetHeight;}
+  function init(){pts=Array.from({length:35},()=>({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.25,vy:(Math.random()-.5)*.25,r:Math.random()*1.2+.4}));}
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    pts.forEach(p=>{
+      p.x+=p.vx;p.y+=p.vy;
+      if(p.x<0||p.x>W)p.vx*=-1;
+      if(p.y<0||p.y>H)p.vy*=-1;
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+      ctx.fillStyle='rgba(212,160,164,0.55)';ctx.fill();
     });
-
-    // animar el bgword con parallax leve
-    const bw = e.target.querySelector('.bgword');
-    if (bw) {
-      bw.style.opacity = '0';
-      bw.style.transform = 'translateX(30px)';
-      bw.style.transition = 'opacity 0.8s ease 0.2s, transform 0.8s ease 0.2s';
-      setTimeout(() => {
-        bw.style.opacity = '1';
-        bw.style.transform = 'translateX(0)';
-      }, 30);
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
+      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
+      if(d<75){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle=`rgba(212,160,164,${0.1*(1-d/75)})`;ctx.lineWidth=.4;ctx.stroke();}
     }
+    requestAnimationFrame(draw);
+  }
+  resize();init();draw();
+  window.addEventListener('resize',()=>{resize();init();});
+})();
 
-    io.unobserve(e.target);
-  });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.section').forEach(s => io.observe(s));
-
-// ── PARALLAX suave en scroll ──
-window.addEventListener('scroll', () => {
-  const y = window.scrollY;
-  document.querySelectorAll('.bgword').forEach(el => {
-    el.style.transform = `translateX(${y * 0.015}px)`;
-  });
-  document.querySelectorAll('.cover-visual').forEach(el => {
-    el.style.transform = `translateY(${y * 0.08}px)`;
-  });
-  // rings rotan
-  document.querySelectorAll('.cring').forEach(el => {
-    el.style.transform = `rotate(${y * 0.05}deg)`;
-  });
-});
+// animate first section on load
+window.addEventListener('load',()=>animateSection(sections[0]));
 </script>
-
 </body>
 </html>
